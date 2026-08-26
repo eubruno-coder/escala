@@ -1,0 +1,2456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sistema de Escalas - V1</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --azul:#0056b3;
+    --azul-escuro:#0c2340;
+    --azul-claro:#e8f1fb;
+    --fundo:#f3f6fa;
+    --card:#ffffff;
+    --borda:#dbe3ec;
+    --texto:#1f2937;
+    --muted:#64748b;
+    --verde:#198754;
+    --verde-claro:#e8f7ef;
+    --amarelo:#d99a00;
+    --amarelo-claro:#fff7df;
+    --vermelho:#dc3545;
+    --vermelho-claro:#fdecee;
+    --cinza:#94a3b8;
+    --sombra:0 8px 24px rgba(15,23,42,.08);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--fundo);
+    color:var(--texto);
+    min-height:100vh;
+    transition:.25s;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.topbar{
+    background:linear-gradient(135deg,var(--azul-escuro),var(--azul));
+    color:#fff;
+    min-height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 28px;
+    box-shadow:0 3px 15px rgba(0,0,0,.12);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.brand-icon{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    background:rgba(255,255,255,.15);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.brand h1{
+    font-size:20px;
+}
+
+.brand span{
+    display:block;
+    font-size:12px;
+    opacity:.75;
+    margin-top:3px;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.header-clock{
+    text-align:right;
+}
+
+.header-clock strong{
+    display:block;
+    font-size:19px;
+}
+
+.header-clock span{
+    font-size:12px;
+    opacity:.8;
+}
+
+.btn-header{
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    border-radius:9px;
+    padding:10px 14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn-header:hover{
+    background:rgba(255,255,255,.2);
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container{
+    max-width:1450px;
+    margin:auto;
+    padding:26px;
+}
+
+.grid-main{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--borda);
+    border-radius:16px;
+    box-shadow:var(--sombra);
+}
+
+.card-header{
+    padding:18px 20px;
+    border-bottom:1px solid var(--borda);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.card-header h2{
+    font-size:17px;
+}
+
+.card-header p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:4px;
+}
+
+/* =========================
+   STATUS PRINCIPAL
+========================= */
+
+.status-card{
+    padding:25px;
+    position:relative;
+    overflow:hidden;
+}
+
+.status-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+}
+
+.operator{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.avatar{
+    width:58px;
+    height:58px;
+    background:var(--azul-claro);
+    color:var(--azul);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.operator h2{
+    font-size:22px;
+}
+
+.operator p{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:13px;
+}
+
+.status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 13px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.status-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:currentColor;
+}
+
+.status-working{
+    background:var(--verde-claro);
+    color:var(--verde);
+}
+
+.status-break{
+    background:var(--amarelo-claro);
+    color:var(--amarelo);
+}
+
+.status-off{
+    background:#eef2f7;
+    color:#64748b;
+}
+
+.status-dayoff{
+    background:var(--vermelho-claro);
+    color:var(--vermelho);
+}
+
+/* =========================
+   CONTADOR
+========================= */
+
+.countdown{
+    text-align:center;
+    padding:28px 10px 22px;
+}
+
+.countdown-label{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.countdown-time{
+    font-size:48px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.countdown-description{
+    margin-top:8px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+.progress{
+    height:9px;
+    background:#e8edf3;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:var(--azul);
+    border-radius:20px;
+    transition:width .5s;
+}
+
+/* =========================
+   INFO GRID
+========================= */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:20px;
+}
+
+.info-box{
+    background:var(--fundo);
+    border:1px solid var(--borda);
+    border-radius:12px;
+    padding:15px;
+}
+
+.info-box .label{
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.info-box strong{
+    display:block;
+    margin-top:6px;
+    font-size:17px;
+}
+
+/* =========================
+   PROXIMO EVENTO
+========================= */
+
+.next-event{
+    margin-top:20px;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid var(--borda);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.next-event-label{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.next-event strong{
+    display:block;
+    margin-top:4px;
+}
+
+/* =========================
+   LINHA DO TEMPO
+========================= */
+
+.timeline{
+    padding:20px;
+}
+
+.timeline-track{
+    position:relative;
+    height:70px;
+    margin-top:15px;
+}
+
+.timeline-line{
+    position:absolute;
+    left:0;
+    right:0;
+    top:34px;
+    height:8px;
+    background:#e5eaf0;
+    border-radius:10px;
+}
+
+.timeline-progress{
+    position:absolute;
+    left:0;
+    top:34px;
+    height:8px;
+    width:0%;
+    background:var(--azul);
+    border-radius:10px;
+    transition:width .5s;
+}
+
+.timeline-point{
+    position:absolute;
+    top:24px;
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    background:#fff;
+    border:4px solid var(--azul);
+    transform:translateX(-50%);
+    z-index:2;
+}
+
+.timeline-point.break{
+    border-color:var(--amarelo);
+}
+
+.timeline-point.end{
+    border-color:var(--vermelho);
+}
+
+.timeline-label{
+    position:absolute;
+    top:57px;
+    transform:translateX(-50%);
+    text-align:center;
+    white-space:nowrap;
+    font-size:10px;
+    color:var(--muted);
+}
+
+.timeline-label strong{
+    display:block;
+    color:var(--texto);
+    font-size:11px;
+}
+
+/* =========================
+   ESCALA SEMANAL
+========================= */
+
+.week-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:10px;
+    padding:20px;
+}
+
+.day{
+    border:1px solid var(--borda);
+    border-radius:13px;
+    padding:14px 10px;
+    min-height:150px;
+    background:var(--card);
+    position:relative;
+}
+
+.day.today{
+    border:2px solid var(--azul);
+    background:var(--azul-claro);
+}
+
+.day-name{
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+.day.today .day-name{
+    color:var(--azul);
+}
+
+.day-date{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.day-hours{
+    margin-top:14px;
+    font-size:12px;
+}
+
+.day-hours strong{
+    font-size:14px;
+}
+
+.day-breaks{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.6;
+}
+
+.day-off{
+    margin-top:25px;
+    color:var(--vermelho);
+    font-weight:bold;
+    font-size:13px;
+}
+
+.today-tag{
+    position:absolute;
+    right:8px;
+    top:8px;
+    background:var(--azul);
+    color:#fff;
+    font-size:9px;
+    padding:4px 6px;
+    border-radius:5px;
+}
+
+/* =========================
+   PAINEL ADMIN
+========================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:1000;
+}
+
+.modal-overlay.active{
+    display:flex;
+}
+
+.modal{
+    width:min(1000px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:var(--card);
+    border-radius:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-header{
+    padding:20px;
+    border-bottom:1px solid var(--borda);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.modal-header h2{
+    font-size:19px;
+}
+
+.close{
+    border:0;
+    background:transparent;
+    font-size:25px;
+    cursor:pointer;
+    color:var(--muted);
+}
+
+.form-body{
+    padding:20px;
+}
+
+.operator-settings{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.field label{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:6px;
+}
+
+.field input{
+    width:100%;
+    border:1px solid var(--borda);
+    border-radius:8px;
+    padding:10px 11px;
+    background:var(--card);
+    color:var(--texto);
+    outline:none;
+}
+
+.field input:focus{
+    border-color:var(--azul);
+}
+
+.editor-grid{
+    display:grid;
+    gap:10px;
+}
+
+.editor-row{
+    display:grid;
+    grid-template-columns:100px 1fr 1fr 2fr 70px;
+    gap:10px;
+    align-items:center;
+    border:1px solid var(--borda);
+    border-radius:10px;
+    padding:10px;
+}
+
+.editor-row strong{
+    font-size:13px;
+}
+
+.editor-row input{
+    width:100%;
+    padding:8px;
+    border:1px solid var(--borda);
+    border-radius:7px;
+    background:var(--card);
+    color:var(--texto);
+}
+
+.checkbox-wrap{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+}
+
+.modal-footer{
+    padding:15px 20px;
+    border-top:1px solid var(--borda);
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.btn{
+    border:0;
+    border-radius:8px;
+    padding:10px 15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:var(--azul);
+    color:#fff;
+}
+
+.btn-secondary{
+    background:#e9eef4;
+    color:var(--texto);
+}
+
+.btn-danger{
+    background:var(--vermelho);
+    color:#fff;
+}
+
+/* =========================
+   RODAPE
+========================= */
+
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    padding:25px 0 10px;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    --fundo:#0f172a;
+    --card:#172033;
+    --borda:#2b3950;
+    --texto:#e5e7eb;
+    --muted:#94a3b8;
+    --azul-claro:#172e4d;
+    --verde-claro:#123a2a;
+    --amarelo-claro:#3d3214;
+    --vermelho-claro:#421c22;
+    --cinza:#64748b;
+}
+
+body.dark .progress{
+    background:#29364a;
+}
+
+body.dark .timeline-line{
+    background:#29364a;
+}
+
+body.dark .timeline-point{
+    background:var(--card);
+}
+
+body.dark .btn-secondary{
+    background:#29364a;
+    color:#e5e7eb;
+}
+
+body.dark .day{
+    background:var(--card);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:1100px){
+    .grid-main{
+        grid-template-columns:1fr;
+    }
+
+    .week-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
+@media(max-width:750px){
+    .topbar{
+        padding:12px 16px;
+    }
+
+    .header-clock{
+        display:none;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .week-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .operator-settings{
+        grid-template-columns:1fr;
+    }
+
+    .editor-row{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .status-top{
+        flex-direction:column;
+    }
+
+    .countdown-time{
+        font-size:38px;
+    }
+}
+
+@media(max-width:450px){
+    .week-grid{
+        grid-template-columns:1fr;
+    }
+
+    .brand h1{
+        font-size:16px;
+    }
+
+    .btn-header{
+        padding:8px 10px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            ⏱
+        </div>
+
+        <div>
+            <h1>Sistema de Escalas</h1>
+            <span>Controle de jornada e pausas</span>
+        </div>
+
+    </div>
+
+    <div class="header-actions">
+
+        <div class="header-clock">
+            <strong id="headerClock">00:00:00</strong>
+            <span id="headerDate">---</span>
+        </div>
+
+        <button class="btn-header" onclick="toggleDarkMode()">
+            ◐ Tema
+        </button>
+
+        <button class="btn-header" onclick="openEditor()">
+            ⚙ Editar escala
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="grid-main">
+
+        <!-- =========================
+             STATUS
+        ========================== -->
+
+        <section class="card status-card">
+
+            <div class="status-top">
+
+                <div class="operator">
+
+                    <div class="avatar" id="avatar">
+                        BS
+                    </div>
+
+                    <div>
+                        <h2 id="operatorName">
+                            Operador
+                        </h2>
+
+                        <p id="currentDayText">
+                            Carregando...
+                        </p>
+                    </div>
+
+                </div>
+
+                <div id="statusBadge" class="status-badge status-off">
+                    <span class="status-dot"></span>
+                    <span id="statusText">
+                        Fora da jornada
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="countdown">
+
+                <div class="countdown-label" id="countdownLabel">
+                    Próximo evento
+                </div>
+
+                <div class="countdown-time" id="countdown">
+                    00:00:00
+                </div>
+
+                <div class="countdown-description" id="countdownDescription">
+                    ---
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <span class="label">Entrada</span>
+                    <strong id="entryTime">--:--</strong>
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Saída</span>
+                    <strong id="exitTime">--:--</strong>
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Tempo de jornada</span>
+                    <strong id="workDuration">--</strong>
+                </div>
+
+            </div>
+
+
+            <div class="next-event">
+
+                <div>
+                    <div class="next-event-label">
+                        PRÓXIMO EVENTO
+                    </div>
+
+                    <strong id="nextEvent">
+                        ---
+                    </strong>
+                </div>
+
+                <div style="font-size:24px;">
+                    →
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TIMELINE
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <h2>Linha do tempo</h2>
+                    <p>Acompanhamento da jornada atual</p>
+                </div>
+
+            </div>
+
+            <div class="timeline">
+
+                <div class="timeline-track">
+
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-progress" id="timelineProgress"></div>
+
+                    <div class="timeline-point"
+                         id="startPoint"
+                         style="left:0%">
+                    </div>
+
+                    <div class="timeline-label"
+                         style="left:0%">
+                        <strong id="timelineStart">--:--</strong>
+                        Entrada
+                    </div>
+
+
+                    <div id="breakPoints"></div>
+
+
+                    <div class="timeline-point end"
+                         style="left:100%">
+                    </div>
+
+                    <div class="timeline-label"
+                         style="left:100%">
+                        <strong id="timelineEnd">--:--</strong>
+                        Saída
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =========================
+         ESCALA SEMANAL
+    ========================== -->
+
+    <section class="card" style="margin-top:20px;">
+
+        <div class="card-header">
+
+            <div>
+                <h2>Minha escala semanal</h2>
+                <p>Visualização automática da programação</p>
+            </div>
+
+            <button class="btn btn-secondary" onclick="goToToday()">
+                Hoje
+            </button>
+
+        </div>
+
+        <div class="week-grid" id="weekGrid"></div>
+
+    </section>
+
+
+    <div class="footer">
+        Sistema de Escalas V1 • Funcionamento local • Dados salvos neste navegador
+    </div>
+
+</main>
+
+
+<!-- =========================
+     MODAL EDITOR
+========================== -->
+
+<div class="modal-overlay" id="editorModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>Editar escala</h2>
+
+            <button class="close" onclick="closeEditor()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-body">
+
+            <div class="operator-settings">
+
+                <div class="field">
+
+                    <label>
+                        Nome do operador
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                        placeholder="Digite o nome"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Matrícula / identificação
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editId"
+                        placeholder="Opcional"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <h3 style="font-size:15px;margin-bottom:12px;">
+                Escala semanal
+            </h3>
+
+
+            <div class="editor-grid" id="editorGrid"></div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="btn btn-danger"
+                    onclick="restoreDefault()">
+                Restaurar padrão
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="closeEditor()">
+                Cancelar
+            </button>
+
+            <button class="btn btn-primary"
+                    onclick="saveEditor()">
+                Salvar alterações
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO PADRÃO
+===================================================== */
+
+const DEFAULT_DATA = {
+
+    operator:{
+        name:"Bruno",
+        id:""
+    },
+
+    week:{
+
+        0:{
+            day:"Domingo",
+            off:true,
+            start:"",
+            end:"",
+            breaks:[]
+        },
+
+        1:{
+            day:"Segunda-feira",
+            off:false,
+            start:"13:00",
+            end:"19:20",
+            breaks:[
+                {
+                    start:"15:50",
+                    end:"16:00"
+                }
+            ]
+        },
+
+        2:{
+            day:"Terça-feira",
+            off:false,
+            start:"13:00",
+            end:"19:20",
+            breaks:[
+                {
+                    start:"15:50",
+                    end:"16:00"
+                }
+            ]
+        },
+
+        3:{
+            day:"Quarta-feira",
+            off:false,
+            start:"13:00",
+            end:"19:20",
+            breaks:[
+                {
+                    start:"15:50",
+                    end:"16:00"
+                }
+            ]
+        },
+
+        4:{
+            day:"Quinta-feira",
+            off:false,
+            start:"13:00",
+            end:"19:20",
+            breaks:[
+                {
+                    start:"15:50",
+                    end:"16:00"
+                }
+            ]
+        },
+
+        5:{
+            day:"Sexta-feira",
+            off:false,
+            start:"13:00",
+            end:"19:20",
+            breaks:[
+                {
+                    start:"15:50",
+                    end:"16:00"
+                }
+            ]
+        },
+
+        6:{
+            day:"Sábado",
+            off:true,
+            start:"",
+            end:"",
+            breaks:[]
+        }
+
+    }
+
+};
+
+
+/* =====================================================
+   ESTADO
+===================================================== */
+
+let data = loadData();
+
+let currentDay = new Date().getDay();
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function loadData(){
+
+    const saved = localStorage.getItem("sistemaEscalasV1");
+
+    if(saved){
+
+        try{
+
+            return JSON.parse(saved);
+
+        }catch(error){
+
+            console.warn("Erro ao carregar dados.");
+
+        }
+
+    }
+
+    return structuredClone(DEFAULT_DATA);
+}
+
+
+function saveData(){
+
+    localStorage.setItem(
+        "sistemaEscalasV1",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =====================================================
+   UTILITÁRIOS
+===================================================== */
+
+function timeToMinutes(time){
+
+    if(!time){
+        return 0;
+    }
+
+    const parts = time.split(":");
+
+    return Number(parts[0]) * 60 + Number(parts[1]);
+
+}
+
+
+function formatTime(date){
+
+    return date.toLocaleTimeString(
+        "pt-BR",
+        {
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+        }
+    );
+
+}
+
+
+function formatDate(date){
+
+    return date.toLocaleDateString(
+        "pt-BR",
+        {
+            weekday:"long",
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+function formatCountdown(seconds){
+
+    seconds = Math.max(0,Math.floor(seconds));
+
+    const h = Math.floor(seconds / 3600);
+
+    const m = Math.floor(
+        (seconds % 3600) / 60
+    );
+
+    const s = seconds % 60;
+
+    return [
+
+        String(h).padStart(2,"0"),
+        String(m).padStart(2,"0"),
+        String(s).padStart(2,"0")
+
+    ].join(":");
+
+}
+
+
+function getCurrentMinutes(){
+
+    const now = new Date();
+
+    return now.getHours() * 60 +
+           now.getMinutes() +
+           now.getSeconds() / 60;
+
+}
+
+
+function minutesToText(minutes){
+
+    const h = Math.floor(minutes / 60);
+
+    const m = Math.round(minutes % 60);
+
+    if(h > 0){
+
+        return `${h}h ${String(m).padStart(2,"0")}min`;
+
+    }
+
+    return `${m}min`;
+
+}
+
+
+function initials(name){
+
+    if(!name){
+        return "OP";
+    }
+
+    const words = name.trim().split(/\s+/);
+
+    if(words.length === 1){
+
+        return words[0].substring(0,2).toUpperCase();
+
+    }
+
+    return (
+        words[0][0] +
+        words[words.length - 1][0]
+    ).toUpperCase();
+
+}
+
+
+/* =====================================================
+   STATUS DA JORNADA
+===================================================== */
+
+function getDayStatus(dayData, now){
+
+    if(dayData.off){
+
+        return {
+            type:"dayoff",
+            text:"Folga"
+        };
+
+    }
+
+    const current =
+        now.getHours() * 60 +
+        now.getMinutes() +
+        now.getSeconds()/60;
+
+    const start =
+        timeToMinutes(dayData.start);
+
+    const end =
+        timeToMinutes(dayData.end);
+
+    if(current < start){
+
+        return {
+            type:"off",
+            text:"Fora da jornada"
+        };
+
+    }
+
+    if(current >= end){
+
+        return {
+            type:"off",
+            text:"Jornada encerrada"
+        };
+
+    }
+
+    for(const br of dayData.breaks){
+
+        const bs = timeToMinutes(br.start);
+
+        const be = timeToMinutes(br.end);
+
+        if(current >= bs && current < be){
+
+            return {
+                type:"break",
+                text:"Em pausa",
+                break:br
+            };
+
+        }
+
+    }
+
+    return {
+        type:"working",
+        text:"Em jornada"
+    };
+
+}
+
+
+/* =====================================================
+   ATUALIZAÇÃO PRINCIPAL
+===================================================== */
+
+function update(){
+
+    const now = new Date();
+
+    currentDay = now.getDay();
+
+    updateHeader(now);
+
+    updateMainStatus(now);
+
+    renderWeek();
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+function updateHeader(now){
+
+    document.getElementById("headerClock")
+        .textContent = formatTime(now);
+
+    document.getElementById("headerDate")
+        .textContent = formatDate(now);
+
+}
+
+
+/* =====================================================
+   STATUS PRINCIPAL
+===================================================== */
+
+function updateMainStatus(now){
+
+    const dayData = data.week[currentDay];
+
+    const status = getDayStatus(
+        dayData,
+        now
+    );
+
+    const badge =
+        document.getElementById("statusBadge");
+
+    const statusText =
+        document.getElementById("statusText");
+
+    const name =
+        data.operator.name || "Operador";
+
+    document.getElementById("operatorName")
+        .textContent = name;
+
+    document.getElementById("avatar")
+        .textContent = initials(name);
+
+    document.getElementById("currentDayText")
+        .textContent =
+        formatDate(now);
+
+
+    badge.className =
+        "status-badge " +
+        (
+            status.type === "working"
+                ? "status-working"
+                : status.type === "break"
+                ? "status-break"
+                : status.type === "dayoff"
+                ? "status-dayoff"
+                : "status-off"
+        );
+
+
+    statusText.textContent =
+        status.text;
+
+
+    if(dayData.off){
+
+        resetMainInformation(
+            "Hoje é dia de folga"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById("entryTime")
+        .textContent = dayData.start;
+
+    document.getElementById("exitTime")
+        .textContent = dayData.end;
+
+
+    const duration =
+        timeToMinutes(dayData.end) -
+        timeToMinutes(dayData.start);
+
+    document.getElementById("workDuration")
+        .textContent =
+        minutesToText(duration);
+
+
+    document.getElementById("timelineStart")
+        .textContent = dayData.start;
+
+    document.getElementById("timelineEnd")
+        .textContent = dayData.end;
+
+
+    updateCountdown(
+        dayData,
+        status,
+        now
+    );
+
+    renderTimeline(
+        dayData,
+        now
+    );
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetMainInformation(message){
+
+    document.getElementById("entryTime")
+        .textContent = "--:--";
+
+    document.getElementById("exitTime")
+        .textContent = "--:--";
+
+    document.getElementById("workDuration")
+        .textContent = "--";
+
+    document.getElementById("countdown")
+        .textContent = "00:00:00";
+
+    document.getElementById("countdownLabel")
+        .textContent = "Status";
+
+    document.getElementById("countdownDescription")
+        .textContent = message;
+
+    document.getElementById("nextEvent")
+        .textContent = message;
+
+    document.getElementById("progressBar")
+        .style.width = "0%";
+
+    document.getElementById("timelineProgress")
+        .style.width = "0%";
+
+}
+
+
+/* =====================================================
+   CONTAGEM REGRESSIVA
+===================================================== */
+
+function updateCountdown(
+    dayData,
+    status,
+    now
+){
+
+    const current =
+        now.getHours() * 60 +
+        now.getMinutes() +
+        now.getSeconds()/60;
+
+
+    const currentSeconds =
+        now.getHours()*3600 +
+        now.getMinutes()*60 +
+        now.getSeconds();
+
+
+    const start =
+        timeToMinutes(dayData.start);
+
+    const end =
+        timeToMinutes(dayData.end);
+
+
+    let target;
+
+    let label;
+
+    let description;
+
+
+    /* EM PAUSA */
+
+    if(status.type === "break"){
+
+        target =
+            timeToMinutes(status.break.end) * 60;
+
+        label =
+            "Tempo restante da pausa";
+
+        description =
+            `Pausa termina às ${status.break.end}`;
+
+    }
+
+
+    /* EM JORNADA */
+
+    else if(status.type === "working"){
+
+        const nextBreak =
+            dayData.breaks.find(
+                br =>
+                    timeToMinutes(br.start) >
+                    current
+            );
+
+        if(nextBreak){
+
+            target =
+                timeToMinutes(nextBreak.start) * 60;
+
+            label =
+                "Próxima pausa";
+
+            description =
+                `Pausa às ${nextBreak.start}`;
+
+        }else{
+
+            target =
+                end * 60;
+
+            label =
+                "Tempo restante da jornada";
+
+            description =
+                `Saída às ${dayData.end}`;
+
+        }
+
+    }
+
+
+    /* ANTES DA JORNADA */
+
+    else if(current < start){
+
+        target =
+            start * 60;
+
+        label =
+            "Início da jornada";
+
+        description =
+            `Entrada às ${dayData.start}`;
+
+    }
+
+
+    /* JORNADA ENCERRADA */
+
+    else{
+
+        document.getElementById("countdown")
+            .textContent = "00:00:00";
+
+        document.getElementById("countdownLabel")
+            .textContent = "Jornada encerrada";
+
+        document.getElementById("countdownDescription")
+            .textContent =
+            "Até amanhã";
+
+        document.getElementById("nextEvent")
+            .textContent =
+            "Próxima jornada conforme escala";
+
+        document.getElementById("progressBar")
+            .style.width = "100%";
+
+        return;
+
+    }
+
+
+    const remaining =
+        target - currentSeconds;
+
+
+    document.getElementById("countdown")
+        .textContent =
+        formatCountdown(remaining);
+
+
+    document.getElementById("countdownLabel")
+        .textContent = label;
+
+
+    document.getElementById("countdownDescription")
+        .textContent = description;
+
+
+    /* PRÓXIMO EVENTO */
+
+    if(status.type === "break"){
+
+        document.getElementById("nextEvent")
+            .textContent =
+            `Retorno às ${status.break.end}`;
+
+    }else if(current < start){
+
+        document.getElementById("nextEvent")
+            .textContent =
+            `Entrada às ${dayData.start}`;
+
+    }else{
+
+        const nextBreak =
+            dayData.breaks.find(
+                br =>
+                    timeToMinutes(br.start) >
+                    current
+            );
+
+        if(nextBreak){
+
+            document.getElementById("nextEvent")
+                .textContent =
+                `Pausa às ${nextBreak.start}`;
+
+        }else{
+
+            document.getElementById("nextEvent")
+                .textContent =
+                `Saída às ${dayData.end}`;
+
+        }
+
+    }
+
+
+    /* PROGRESSO DA JORNADA */
+
+    let progress =
+        (
+            (current - start) /
+            (end - start)
+        ) * 100;
+
+    progress =
+        Math.max(
+            0,
+            Math.min(100,progress)
+        );
+
+
+    document.getElementById("progressBar")
+        .style.width =
+        progress + "%";
+
+}
+
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+function renderTimeline(dayData,now){
+
+    const container =
+        document.getElementById("breakPoints");
+
+    container.innerHTML = "";
+
+    const start =
+        timeToMinutes(dayData.start);
+
+    const end =
+        timeToMinutes(dayData.end);
+
+    const total =
+        end - start;
+
+
+    dayData.breaks.forEach(br => {
+
+        const breakStart =
+            timeToMinutes(br.start);
+
+        const percentage =
+            (
+                (breakStart-start) /
+                total
+            ) * 100;
+
+
+        const point =
+            document.createElement("div");
+
+        point.className =
+            "timeline-point break";
+
+        point.style.left =
+            percentage + "%";
+
+
+        const label =
+            document.createElement("div");
+
+        label.className =
+            "timeline-label";
+
+        label.style.left =
+            percentage + "%";
+
+        label.innerHTML =
+            `<strong>${br.start}</strong>Pausa`;
+
+
+        container.appendChild(point);
+
+        container.appendChild(label);
+
+    });
+
+
+    const current =
+        now.getHours()*60 +
+        now.getMinutes() +
+        now.getSeconds()/60;
+
+
+    let progress =
+        ((current-start)/total)*100;
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(100,progress)
+        );
+
+
+    document.getElementById(
+        "timelineProgress"
+    ).style.width =
+        progress + "%";
+
+}
+
+
+/* =====================================================
+   ESCALA SEMANAL
+===================================================== */
+
+function renderWeek(){
+
+    const grid =
+        document.getElementById("weekGrid");
+
+    grid.innerHTML = "";
+
+    const today =
+        new Date().getDay();
+
+    const now =
+        new Date();
+
+
+    for(let day=0;day<7;day++){
+
+        const item =
+            data.week[day];
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "day" +
+            (
+                day === today
+                    ? " today"
+                    : ""
+            );
+
+
+        const date =
+            getDateForDay(day);
+
+
+        let html = "";
+
+        if(day === today){
+
+            html +=
+                `<span class="today-tag">HOJE</span>`;
+
+        }
+
+
+        html += `
+            <div class="day-name">
+                ${item.day}
+            </div>
+
+            <div class="day-date">
+                ${String(date.getDate()).padStart(2,"0")}
+            </div>
+        `;
+
+
+        if(item.off){
+
+            html += `
+                <div class="day-off">
+                    FOLGA
+                </div>
+            `;
+
+        }else{
+
+            html += `
+                <div class="day-hours">
+                    <strong>
+                        ${item.start} → ${item.end}
+                    </strong>
+                </div>
+            `;
+
+
+            if(item.breaks.length){
+
+                html += `
+                    <div class="day-breaks">
+                        ${item.breaks.map(
+                            br =>
+                            `☕ ${br.start} → ${br.end}`
+                        ).join("<br>")}
+                    </div>
+                `;
+
+            }else{
+
+                html += `
+                    <div class="day-breaks">
+                        Sem pausas cadastradas
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        card.innerHTML = html;
+
+        grid.appendChild(card);
+
+    }
+
+}
+
+
+/* =====================================================
+   DATA DA SEMANA
+===================================================== */
+
+function getDateForDay(targetDay){
+
+    const now =
+        new Date();
+
+    const current =
+        now.getDay();
+
+    const difference =
+        targetDay-current;
+
+    const date =
+        new Date(now);
+
+    date.setDate(
+        now.getDate()+difference
+    );
+
+    return date;
+
+}
+
+
+/* =====================================================
+   EDITOR
+===================================================== */
+
+function openEditor(){
+
+    document.getElementById("editorModal")
+        .classList.add("active");
+
+
+    document.getElementById("editName")
+        .value =
+        data.operator.name;
+
+
+    document.getElementById("editId")
+        .value =
+        data.operator.id;
+
+
+    renderEditor();
+
+}
+
+
+function closeEditor(){
+
+    document.getElementById("editorModal")
+        .classList.remove("active");
+
+}
+
+
+function renderEditor(){
+
+    const grid =
+        document.getElementById("editorGrid");
+
+    grid.innerHTML = "";
+
+
+    for(let day=1;day<=6;day++){
+
+        const item =
+            data.week[day];
+
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "editor-row";
+
+
+        row.innerHTML = `
+
+            <strong>
+                ${item.day}
+            </strong>
+
+            <input
+                type="time"
+                data-day="${day}"
+                data-field="start"
+                value="${item.start}"
+                ${item.off ? "disabled" : ""}
+            >
+
+            <input
+                type="time"
+                data-day="${day}"
+                data-field="end"
+                value="${item.end}"
+                ${item.off ? "disabled" : ""}
+            >
+
+            <input
+                type="text"
+                data-day="${day}"
+                data-field="breaks"
+                value="${item.breaks.map(
+                    br =>
+                    `${br.start}-${br.end}`
+                ).join(", ")}"
+                placeholder="Ex.: 15:50-16:00, 18:00-18:10"
+                ${item.off ? "disabled" : ""}
+            >
+
+            <label class="checkbox-wrap">
+
+                <input
+                    type="checkbox"
+                    data-day="${day}"
+                    data-field="off"
+                    ${item.off ? "checked" : ""}
+                    onchange="toggleDay(${day},this.checked)"
+                >
+
+                Folga
+
+            </label>
+
+        `;
+
+
+        grid.appendChild(row);
+
+    }
+
+
+    /* DOMINGO E SÁBADO */
+
+    [0].forEach(day => {
+
+        const item =
+            data.week[day];
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "editor-row";
+
+
+        row.innerHTML = `
+
+            <strong>
+                ${item.day}
+            </strong>
+
+            <input
+                type="time"
+                disabled
+            >
+
+            <input
+                type="time"
+                disabled
+            >
+
+            <input
+                type="text"
+                disabled
+                placeholder="Dia de folga"
+            >
+
+            <label class="checkbox-wrap">
+
+                <input
+                    type="checkbox"
+                    checked
+                    disabled
+                >
+
+                Folga
+
+            </label>
+
+        `;
+
+
+        grid.insertBefore(
+            row,
+            grid.firstChild
+        );
+
+    });
+
+}
+
+
+function toggleDay(day,checked){
+
+    const inputs =
+        document.querySelectorAll(
+            `[data-day="${day}"]`
+        );
+
+
+    inputs.forEach(input => {
+
+        if(input.dataset.field !== "off"){
+
+            input.disabled =
+                checked;
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   SALVAR EDITOR
+===================================================== */
+
+function saveEditor(){
+
+    data.operator.name =
+        document.getElementById("editName")
+            .value.trim() ||
+        "Operador";
+
+
+    data.operator.id =
+        document.getElementById("editId")
+            .value.trim();
+
+
+    for(let day=1;day<=6;day++){
+
+        const dayData =
+            data.week[day];
+
+
+        const start =
+            document.querySelector(
+                `[data-day="${day}"][data-field="start"]`
+            );
+
+
+        const end =
+            document.querySelector(
+                `[data-day="${day}"][data-field="end"]`
+            );
+
+
+        const breaks =
+            document.querySelector(
+                `[data-day="${day}"][data-field="breaks"]`
+            );
+
+
+        const off =
+            document.querySelector(
+                `[data-day="${day}"][data-field="off"]`
+            );
+
+
+        dayData.start =
+            start.value;
+
+
+        dayData.end =
+            end.value;
+
+
+        dayData.off =
+            off.checked;
+
+
+        dayData.breaks =
+            parseBreaks(
+                breaks.value
+            );
+
+    }
+
+
+    saveData();
+
+    closeEditor();
+
+    update();
+
+}
+
+
+/* =====================================================
+   PARSE DE PAUSAS
+===================================================== */
+
+function parseBreaks(value){
+
+    if(!value.trim()){
+
+        return [];
+
+    }
+
+
+    return value
+        .split(",")
+        .map(item => item.trim())
+        .filter(Boolean)
+        .map(item => {
+
+            const parts =
+                item.split("-");
+
+            return {
+
+                start:(parts[0] || "").trim(),
+
+                end:(parts[1] || "").trim()
+
+            };
+
+        })
+        .filter(
+            item =>
+                item.start &&
+                item.end
+        );
+
+}
+
+
+/* =====================================================
+   RESTAURAR PADRÃO
+===================================================== */
+
+function restoreDefault(){
+
+    const confirmed =
+        confirm(
+            "Restaurar toda a escala padrão?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    data =
+        structuredClone(
+            DEFAULT_DATA
+        );
+
+
+    saveData();
+
+    closeEditor();
+
+    update();
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDarkMode(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "sistemaEscalasDark",
+        document.body.classList.contains("dark")
+    );
+
+}
+
+
+function loadTheme(){
+
+    const dark =
+        localStorage.getItem(
+            "sistemaEscalasDark"
+        );
+
+
+    if(dark === "true"){
+
+        document.body.classList.add("dark");
+
+    }
+
+}
+
+
+/* =====================================================
+   IR PARA HOJE
+===================================================== */
+
+function goToToday(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   FECHAR MODAL CLICANDO FORA
+===================================================== */
+
+document.getElementById(
+    "editorModal"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === this){
+
+            closeEditor();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+loadTheme();
+
+update();
+
+
+/*
+    Atualização a cada segundo.
+
+    Isso permite que:
+
+    - relógio avance;
+    - contador seja atualizado;
+    - status mude automaticamente;
+    - pausas sejam detectadas;
+    - progresso seja atualizado.
+*/
+
+setInterval(
+    update,
+    1000
+);
+
+</script>
+
+</body>
+</html>
