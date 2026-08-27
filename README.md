@@ -2,7 +2,7 @@
 
 > Plataforma em desenvolvimento para organização, visualização e gerenciamento de jornadas, escalas e pausas de trabalho.
 
-[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-orange)](#status-do-projeto)
+[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-orange)](#roadmap)
 [![Versão](https://img.shields.io/badge/versão-V1-blue)](#roadmap)
 [![Licença](https://img.shields.io/badge/licença-a%20definir-lightgrey)](#licenciamento)
 
@@ -42,15 +42,15 @@ A autoria do repositório e das decisões de produto permanece com seu responsá
 
 A versão atual é identificada como **V1** e possui uma implementação front-end independente.
 
-A estrutura atualmente publicada contém o arquivo principal `index.html`. fileciteturn1file0
+A estrutura atual do repositório contém o arquivo principal `index.html`.
 
-Entre os recursos já presentes estão o relógio, acompanhamento de status, contador regressivo, informações de entrada/saída, linha do tempo, escala semanal, editor de escala, identificação do operador e modo escuro. fileciteturn2file0 fileciteturn3file0
+Entre os recursos presentes estão relógio, acompanhamento de status, contador regressivo, informações de entrada/saída, linha do tempo, escala semanal, editor de escala, identificação do operador e modo escuro.
 
 ## Conformidade e regras de utilização
 
 A plataforma é desenvolvida considerando requisitos e referências regulatórias aplicáveis ao contexto em que for utilizada, especialmente quando destinada a atividades de teleatendimento/telemarketing.
 
-A **NR-17**, em seu Anexo II, estabelece requisitos específicos para trabalho em teleatendimento/telemarketing, incluindo organização do trabalho, pausas e intervalos. O texto oficial atualmente disponibilizado pelo Ministério do Trabalho e Emprego deve ser utilizado como referência normativa. [NR-17 — Ministério do Trabalho e Emprego](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-paritaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-17-nr-17) citeturn0search0turn0search15
+A **NR-17**, em seu Anexo II, estabelece requisitos específicos para trabalho em teleatendimento/telemarketing, incluindo organização do trabalho, pausas e intervalos. O texto oficial disponibilizado pelo Ministério do Trabalho e Emprego deve ser utilizado como referência normativa.
 
 **Importante:** a existência da plataforma não significa, por si só, certificação de conformidade trabalhista ou ergonômica. A configuração de jornadas, pausas, intervalos e demais parâmetros deve ser validada de acordo com a legislação vigente, atividade exercida, contrato, instrumentos coletivos aplicáveis e políticas da organização.
 
@@ -75,9 +75,9 @@ Este projeto não cria novas penalidades nem substitui as sanções previstas em
 
 O sistema possui liberdade técnica para trabalhar com diferentes configurações de jornada. Entretanto, **uma configuração existente no software não deve ser interpretada automaticamente como uma regra legal**.
 
-Para atividades enquadradas no Anexo II da NR-17, o texto oficial prevê, entre outros requisitos, duas pausas de 10 minutos e intervalo de 20 minutos para repouso e alimentação, além de outras disposições específicas. citeturn0search13turn0search15
+Para atividades enquadradas no Anexo II da NR-17, o texto oficial prevê, entre outros requisitos, duas pausas de 10 minutos e intervalo de 20 minutos para repouso e alimentação, além de outras disposições específicas.
 
-Por isso, jornadas específicas, como 6h20, 8h12 ou outras modalidades eventualmente adotadas pelo projeto, devem ser tratadas como **parâmetros de configuração** e validadas juridicamente/operacionalmente antes de serem apresentadas como conformes a uma norma.
+Por isso, jornadas específicas, como 6h20, 8h12 ou outras modalidades eventualmente adotadas pelo projeto, devem ser tratadas como **parâmetros de configuração** e validadas juridicamente e operacionalmente antes de serem apresentadas como conformes a uma norma.
 
 ## Arquitetura planejada
 
@@ -103,7 +103,7 @@ escala/
 
 A separação acima representa a **arquitetura planejada**, não a estrutura obrigatoriamente existente na V1.
 
-## Próxima evolução
+## Roadmap
 
 ### V1 — Interface funcional
 
