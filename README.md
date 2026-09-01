@@ -1,95 +1,112 @@
 # Sistema de Escalas
 
-> Plataforma em desenvolvimento para organização, visualização e gerenciamento de jornadas, escalas e pausas de trabalho.
+> Aplicação web para visualização e organização de jornadas, escalas e pausas, desenvolvida como parte do ecossistema de projetos do `eubruno-coder`.
 
-[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-orange)](#roadmap)
+[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-orange)](#status-do-projeto)
 [![Versão](https://img.shields.io/badge/versão-V1-blue)](#roadmap)
+[![Tecnologia](https://img.shields.io/badge/tecnologia-HTML%20%7C%20CSS%20%7C%20JavaScript-yellow)](#arquitetura)
+[![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-222?logo=github)](#deploy)
 [![Licença](https://img.shields.io/badge/licença-a%20definir-lightgrey)](#licenciamento)
+
+---
 
 ## Sobre o projeto
 
-O **Sistema de Escalas** nasceu com uma proposta simples: transformar a gestão de escalas e pausas em uma experiência visual, acessível e fácil de manter.
+O **Sistema de Escalas** é uma aplicação web focada na organização visual da jornada de trabalho, permitindo acompanhar horários, pausas e eventos da escala de maneira simples e objetiva.
 
-A primeira versão funciona como uma aplicação web independente, concentrada em um único `index.html`, com interface responsiva, acompanhamento da jornada em tempo real, contador de eventos, linha do tempo, visão semanal, edição da escala e alternância entre tema claro e escuro.
+A V1 foi concebida como uma aplicação **front-end independente**, sem necessidade de servidor ou banco de dados para funcionamento básico. O objetivo é manter uma implantação simples e, ao mesmo tempo, criar uma base técnica que possa evoluir para persistência, autenticação e gestão centralizada.
 
-O projeto está sendo construído de forma incremental, priorizando baixo custo de operação, facilidade de manutenção e possibilidade de evolução para uma arquitetura com persistência de dados e identificação de usuários.
+O projeto também faz parte do ecossistema de soluções desenvolvido pelo `eubruno-coder`, mantendo integração conceitual e de navegação com a **Central de Atendimento — Intranet**.
 
-## Conceito
+## Acesso
 
-A plataforma foi pensada para funcionar como uma **camada de organização da jornada**, permitindo que o usuário visualize de forma objetiva:
+A aplicação está preparada para publicação como site estático e pode ser utilizada diretamente pelo GitHub Pages.
 
-- horário de entrada e saída;
-- duração da jornada configurada;
-- status atual da jornada;
-- próximo evento ou pausa;
-- contagem regressiva em tempo real;
-- progresso da jornada;
-- linha do tempo;
-- escala semanal;
-- configuração dos horários;
+**Aplicação:**
+
+`https://eubruno-coder.github.io/escala/`
+
+## Status do projeto
+
+**Versão atual: V1 — Interface funcional**
+
+A versão atual concentra-se na experiência de uso da escala e no acompanhamento da jornada em tempo real.
+
+### Recursos disponíveis
+
+- Relógio em tempo real;
+- acompanhamento do status da jornada;
+- contagem regressiva para eventos;
+- indicação de entrada e saída;
+- visualização do progresso da jornada;
+- linha do tempo de eventos;
+- visão semanal da escala;
+- edição/configuração da escala;
 - identificação básica do operador;
-- tema claro ou escuro.
+- tema claro e escuro;
+- interface responsiva;
+- funcionamento sem backend na V1.
 
-O objetivo não é apenas mostrar horários, mas criar uma base que possa evoluir para uma solução de gestão de escalas mais completa.
+## Integração com a Central de Atendimento
 
-## Desenvolvimento colaborativo
+O Sistema de Escalas foi estruturado para funcionar como um módulo independente dentro do ecossistema da **Central de Atendimento — Intranet**.
 
-Este repositório representa um **projeto desenvolvido de forma colaborativa entre o autor do repositório e a assistência de inteligência artificial utilizada durante o processo de concepção, arquitetura, documentação, revisão e evolução da plataforma**.
+Na intranet, o sistema é disponibilizado em **Links Rápidos**, permitindo que o operador acesse a ferramenta de escala sem abandonar a estrutura principal da Central.
 
-A autoria do repositório e das decisões de produto permanece com seu responsável. A participação da IA constitui assistência técnica e de desenvolvimento, não configurando, por si só, sociedade, vínculo empregatício, representação jurídica ou parceria comercial.
+```text
+Central de Atendimento — Intranet
+                │
+                ├── Atendimento
+                ├── Scripts
+                ├── Links Rápidos
+                │       └── Sistema de Escalas
+                │
+                └── Sistema de Escalas
+                        ├── Jornada
+                        ├── Pausas
+                        ├── Linha do tempo
+                        └── Escala semanal
+```
 
-## Estado atual
+A integração atual é principalmente de **navegação e ecossistema**. O Sistema de Escalas continua sendo uma aplicação independente, o que reduz o acoplamento entre os projetos e facilita sua evolução.
 
-A versão atual é identificada como **V1** e possui uma implementação front-end independente.
+## Conceito de produto
 
-A estrutura atual do repositório contém o arquivo principal `index.html`.
+A proposta do sistema é transformar uma informação normalmente apresentada de forma estática em uma **interface operacional de acompanhamento da jornada**.
 
-Entre os recursos presentes estão relógio, acompanhamento de status, contador regressivo, informações de entrada/saída, linha do tempo, escala semanal, editor de escala, identificação do operador e modo escuro.
+O usuário deve conseguir identificar rapidamente:
 
-## Conformidade e regras de utilização
+- onde está dentro da jornada;
+- qual é o próximo evento;
+- quanto tempo falta para o próximo evento;
+- quais pausas estão previstas;
+- como está organizada a semana;
+- quais horários estão configurados.
 
-A plataforma é desenvolvida considerando requisitos e referências regulatórias aplicáveis ao contexto em que for utilizada, especialmente quando destinada a atividades de teleatendimento/telemarketing.
+A interface utiliza uma linguagem visual inspirada em **painéis operacionais**, com destaque para estados, contadores e eventos.
 
-A **NR-17**, em seu Anexo II, estabelece requisitos específicos para trabalho em teleatendimento/telemarketing, incluindo organização do trabalho, pausas e intervalos. O texto oficial disponibilizado pelo Ministério do Trabalho e Emprego deve ser utilizado como referência normativa.
+## Arquitetura
 
-**Importante:** a existência da plataforma não significa, por si só, certificação de conformidade trabalhista ou ergonômica. A configuração de jornadas, pausas, intervalos e demais parâmetros deve ser validada de acordo com a legislação vigente, atividade exercida, contrato, instrumentos coletivos aplicáveis e políticas da organização.
+A V1 utiliza uma arquitetura propositalmente simples: toda a aplicação está concentrada no `index.html`.
 
-### Princípios de conformidade
+```text
+escala/
+└── index.html
+```
 
-1. Os parâmetros de jornada não devem ser configurados de maneira deliberadamente incompatível com as normas aplicáveis.
-2. As pausas e intervalos devem respeitar os requisitos legais e regulamentares pertinentes ao contexto de utilização.
-3. Alterações administrativas devem ser realizadas somente por pessoas autorizadas.
-4. A plataforma não deve ser utilizada para suprimir direitos, impedir pausas obrigatórias ou induzir o trabalhador a descumprir regras de saúde e segurança.
-5. Registros e configurações devem ser preservados de forma responsável quando a aplicação passar a utilizar armazenamento persistente.
-6. Qualquer atualização normativa relevante deve ser analisada antes de ser incorporada como regra automática do sistema.
+O arquivo contém a estrutura HTML, estilos CSS e lógica JavaScript necessários para a execução da versão atual.
 
-### Uso indevido e descumprimento
+Essa abordagem reduz a complexidade inicial e facilita o deploy em hospedagem estática. Conforme o projeto evoluir, a estrutura poderá ser modularizada.
 
-O uso da plataforma em desacordo com sua finalidade, com as regras internas de uma organização ou com a legislação aplicável é de responsabilidade de quem realizar, autorizar ou manter a configuração indevida.
-
-Dependendo do contexto, alterações ou utilização indevida poderão resultar nas **medidas administrativas, contratuais ou legais cabíveis**, observados o devido processo, a legislação aplicável e as competências de cada responsável.
-
-Este projeto não cria novas penalidades nem substitui as sanções previstas em lei, contrato, regulamento interno ou instrumento coletivo.
-
-## Atenção sobre os parâmetros de pausas
-
-O sistema possui liberdade técnica para trabalhar com diferentes configurações de jornada. Entretanto, **uma configuração existente no software não deve ser interpretada automaticamente como uma regra legal**.
-
-Para atividades enquadradas no Anexo II da NR-17, o texto oficial prevê, entre outros requisitos, duas pausas de 10 minutos e intervalo de 20 minutos para repouso e alimentação, além de outras disposições específicas.
-
-Por isso, jornadas específicas, como 6h20, 8h12 ou outras modalidades eventualmente adotadas pelo projeto, devem ser tratadas como **parâmetros de configuração** e validadas juridicamente e operacionalmente antes de serem apresentadas como conformes a uma norma.
-
-## Arquitetura planejada
-
-A V1 utiliza uma estrutura simples para reduzir barreiras de implantação. A evolução prevista é separar gradualmente as responsabilidades:
+### Arquitetura planejada
 
 ```text
 escala/
 ├── index.html
 ├── README.md
 ├── docs/
-│   ├── REGRAS-E-CONFORMIDADE.md
-│   └── ARQUITETURA.md
+│   ├── ARQUITETURA.md
+│   └── REGRAS-E-CONFORMIDADE.md
 ├── css/
 │   └── style.css
 ├── js/
@@ -101,7 +118,52 @@ escala/
     └── ...
 ```
 
-A separação acima representa a **arquitetura planejada**, não a estrutura obrigatoriamente existente na V1.
+> A estrutura acima representa a evolução planejada e não deve ser interpretada como a estrutura atualmente existente na V1.
+
+## Interface e identidade visual
+
+A interface atual utiliza uma linguagem visual própria, com dois modos de apresentação:
+
+### Tema claro
+
+Pensado para o uso durante o expediente, com fundo claro, painéis de alto contraste e indicadores de estado.
+
+### Tema escuro
+
+Pensado como um modo de operação alternativo, com fundo escuro, elementos de destaque e estética inspirada em consoles operacionais.
+
+A interface utiliza **Inter** para elementos de leitura e **JetBrains Mono** para horários, contadores e informações de caráter operacional.
+
+## Conformidade e parâmetros de jornada
+
+O sistema pode trabalhar com diferentes configurações de horários e pausas. Entretanto, **uma configuração existente na aplicação não representa automaticamente uma regra legal ou uma certificação de conformidade**.
+
+Quando utilizado em atividades sujeitas a requisitos específicos de jornada, pausas ou intervalos, os parâmetros devem ser validados conforme:
+
+- legislação vigente;
+- normas regulamentadoras aplicáveis;
+- instrumentos coletivos;
+- contrato e regras internas da organização;
+- características efetivas da atividade exercida.
+
+Para contextos de teleatendimento/telemarketing, a **NR-17, Anexo II**, deve ser considerada como referência normativa aplicável quando o enquadramento legal corresponder à atividade.
+
+> O projeto possui finalidade tecnológica e operacional. A configuração definitiva de jornadas e pausas deve ser validada pelos responsáveis técnicos, operacionais e jurídicos competentes.
+
+## Segurança e privacidade
+
+A V1 não depende de banco de dados ou autenticação centralizada.
+
+Caso o projeto passe a armazenar dados pessoais, deverão ser incorporados mecanismos adequados de segurança, controle de acesso, retenção e exclusão, considerando a legislação brasileira aplicável, incluindo a **LGPD**.
+
+Não devem ser publicados no repositório:
+
+- senhas;
+- tokens;
+- chaves de API;
+- credenciais;
+- dados pessoais desnecessários;
+- informações internas que não tenham autorização para publicação.
 
 ## Roadmap
 
@@ -113,18 +175,21 @@ A separação acima representa a **arquitetura planejada**, não a estrutura obr
 - [x] Status da jornada
 - [x] Linha do tempo
 - [x] Escala semanal
-- [x] Editor de escala
+- [x] Editor/configuração de escala
 - [x] Identificação básica do operador
 - [x] Tema claro/escuro
 - [x] Layout responsivo
+- [x] Publicação como aplicação web estática
+- [x] Integração de navegação com a Central de Atendimento
 
 ### V2 — Persistência e usuários
 
+- [ ] Separação de HTML, CSS e JavaScript
 - [ ] Banco de dados
 - [ ] Cadastro de usuários
 - [ ] Identificação persistente
 - [ ] Salvamento das escalas
-- [ ] Recuperação da configuração do usuário
+- [ ] Recuperação das configurações
 - [ ] Controle de permissões
 - [ ] Histórico de alterações
 
@@ -136,57 +201,82 @@ A separação acima representa a **arquitetura planejada**, não a estrutura obr
 - [ ] Auditoria de alterações
 - [ ] Relatórios
 - [ ] Configuração centralizada de parâmetros
+- [ ] Integração mais profunda com a Intranet
 
-### V4 — Escalabilidade
+### V4 — Plataforma
 
-- [ ] Separação completa entre front-end e back-end
 - [ ] API
 - [ ] Banco de dados estruturado
 - [ ] Autenticação segura
 - [ ] Controle de acesso por perfil
 - [ ] Logs e auditoria
-- [ ] Rotinas de backup
+- [ ] Backup e recuperação
+- [ ] Arquitetura preparada para múltiplas unidades/equipes
 
 ## Filosofia técnica
 
-O projeto prioriza:
+O desenvolvimento segue alguns princípios:
 
-- **baixo custo:** utilizar recursos gratuitos ou de baixo custo sempre que tecnicamente viável;
-- **simplicidade:** evitar dependências desnecessárias;
-- **acessibilidade:** permitir que a plataforma seja compreendida e utilizada sem treinamento complexo;
-- **manutenção:** facilitar alterações futuras nas regras e horários;
-- **transparência:** deixar claro quais parâmetros são configuráveis e quais são requisitos externos;
-- **segurança:** evoluir gradualmente para autenticação, autorização, persistência e auditoria;
-- **conformidade:** não transformar uma configuração de software em falsa garantia de conformidade legal.
+- **simplicidade:** reduzir dependências e complexidade desnecessária;
+- **baixo custo:** priorizar infraestrutura gratuita ou de baixo custo quando viável;
+- **modularidade:** permitir evolução gradual sem reescrever o produto inteiro;
+- **usabilidade:** priorizar leitura rápida das informações operacionais;
+- **transparência:** diferenciar parâmetros configuráveis de requisitos externos;
+- **segurança:** preparar a arquitetura para autenticação, autorização e auditoria;
+- **manutenibilidade:** manter o código preparado para futuras evoluções.
 
-## Segurança e dados
+## Desenvolvimento colaborativo
 
-Quando o sistema passar a armazenar informações pessoais, deverão ser definidos controles apropriados para coleta, finalidade, acesso, alteração, retenção e exclusão dos dados.
+Este projeto foi desenvolvido com apoio de **inteligência artificial** em atividades de concepção, arquitetura, revisão, documentação e implementação.
 
-A evolução para banco de dados deverá considerar, conforme aplicável, princípios de segurança da informação e a legislação brasileira de proteção de dados, incluindo a LGPD.
+A autoria do repositório, das decisões de produto e da direção do projeto permanece com o responsável pelo repositório.
 
-Nenhuma senha, chave de API, token, credencial ou dado sensível deve ser armazenado diretamente no código-fonte ou publicado no repositório.
+A utilização de assistência de IA não constitui, por si só, sociedade, vínculo empregatício, representação jurídica ou parceria comercial.
 
 ## Licenciamento
 
 A licença definitiva do projeto ainda será definida pelo responsável pelo repositório.
 
-Enquanto não houver uma licença explícita neste repositório, o código não deve ser presumido como estando sob uma licença open source específica.
+Enquanto não houver uma licença explícita no repositório, o código **não deve ser presumido como estando sob uma licença open source específica**.
 
-## Responsabilidade
+## Changelog
 
-Este repositório é um projeto de software em desenvolvimento. A documentação técnica e as referências regulatórias têm finalidade informativa e de orientação de projeto.
+### V1 — 2026
 
-A implementação em ambiente real deve ser submetida às validações técnicas, operacionais e jurídicas necessárias, especialmente quando envolver jornada de trabalho, pausas, dados pessoais ou obrigações regulatórias.
+- Estrutura inicial da aplicação web;
+- criação do acompanhamento de jornada;
+- implementação de contadores e status;
+- criação da linha do tempo;
+- implementação da escala semanal;
+- editor/configuração da escala;
+- identificação básica do operador;
+- implementação de tema claro e escuro;
+- preparação para publicação em GitHub Pages;
+- integração de navegação com a Central de Atendimento.
+
+## Próximas prioridades
+
+A evolução recomendada do projeto é:
+
+1. modularizar o `index.html`;
+2. criar documentação técnica separada;
+3. definir o modelo de dados da escala;
+4. adicionar persistência local antes de introduzir um backend;
+5. avaliar autenticação e banco de dados;
+6. aprofundar a integração com a Central de Atendimento;
+7. estabelecer governança e política de licenciamento antes de ampliar a distribuição.
 
 ## Referências oficiais
 
-- [Ministério do Trabalho e Emprego — NR-17](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-paritaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-17-nr-17)
-- [NR-17 — Anexo II — Teleatendimento/Telemarketing](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-paritaria-permanente/arquivos/normas-regulamentadoras/nr-17-anexo-ii-teleatendimento-atualizado-2021.pdf)
+- Ministério do Trabalho e Emprego — NR-17;
+- NR-17 — Anexo II — Teleatendimento/Telemarketing.
+
+As referências normativas devem ser consultadas sempre em suas versões oficiais e vigentes antes da configuração de regras no sistema.
 
 ---
 
 **Projeto:** Sistema de Escalas  
 **Repositório:** `eubruno-coder/escala`  
 **Versão atual:** V1  
-**Status:** Em desenvolvimento contínuo
+**Status:** Em desenvolvimento contínuo  
+**Ecossistema:** Central de Atendimento — Intranet
